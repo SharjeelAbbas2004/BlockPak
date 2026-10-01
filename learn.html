@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learn Crypto — Guides for Pakistan (English & Roman Urdu) | BlockPak</title>
+<meta name="description" content="Step-by-step crypto guides for Pakistanis: tax, regulation, buying crypto with PKR, staying safe. English and Roman Urdu.">
+<meta property="og:title" content="Learn Crypto — Guides for Pakistan (English & Roman Urdu) | BlockPak">
+<meta property="og:description" content="Step-by-step crypto guides for Pakistanis: tax, regulation, buying crypto with PKR, staying safe. English and Roman Urdu.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BlockPak">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Learn Crypto — Guides for Pakistan (English & Roman Urdu) | BlockPak">
+<meta name="twitter:description" content="Step-by-step crypto guides for Pakistanis: tax, regulation, buying crypto with PKR, staying safe. English and Roman Urdu.">
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2300e676'/><text x='50' y='68' font-size='52' text-anchor='middle' font-family='Arial' font-weight='bold' fill='%2304120a'>B</text></svg>">
+
+</head>
+<body>
+<div class="progress-bar" data-progress></div>
+
+<div class="breaking-bar"><div class="wrap">
+  <span class="breaking-label">Breaking</span>
+  <span class="breaking-text"><a href="news/pvara-licensing-portal-live.html">PVARA opens crypto licensing portal — 70+ firms apply for licences under the Virtual Assets Act 2026</a></span>
+</div></div>
+<div class="price-ticker"><div class="wrap">
+  <span class="tick-label">Live prices (PKR)</span>
+  <span data-price-ticker><span class="tick">Loading…</span></span>
+</div></div>
+<header class="site-header"><div class="wrap header-inner">
+  <a class="logo" href="index.html" aria-label="BlockPak home">
+    <span class="logo-mark">B</span>
+    <span class="logo-text"><b data-brand>BlockPak</b><small>PAKISTAN'S CRYPTO VOICE</small></span>
+  </a>
+  <nav class="main-nav" data-main-nav>
+      <a href="index.html">Home</a>
+      <a href="news.html">News</a>
+      <a href="learn.html" class="active">Learn</a>
+      <a href="rankings.html">Rankings</a>
+      <a href="press-releases.html">Press Releases</a>
+  </nav>
+  <div class="header-actions">
+    <div class="search-wrap" data-search-wrap>
+      <input type="search" placeholder="Search articles…" aria-label="Search articles" data-search-input>
+      <div class="search-results" data-search-results hidden></div>
+    </div>
+    <button class="icon-btn" data-theme-toggle aria-label="Toggle theme">☀️</button>
+    <button class="icon-btn menu-btn" data-menu-btn aria-label="Menu" aria-expanded="false">☰</button>
+  </div>
+</div></header>
+
+<div class="wrap">
+  <div class="page-hero"><h1>Learn Crypto — Step by Step</h1>
+  <p>Evergreen guides for Pakistani beginners: tax, regulation, buying your first crypto, and staying safe. Written in plain English and Roman Urdu — no jargon, no hype.</p></div>
+  <div class="chips">
+    <button class="chip active" data-langfilter="all">All languages</button>
+    <button class="chip" data-langfilter="EN">English</button>
+    <button class="chip" data-langfilter="UR">Roman Urdu</button>
+  </div>
+  <div class="grid-3" id="learn-grid">
+    <article class="card" data-lang="EN"><div class="card-art">🧾</div><div class="card-body">
+      <span class="card-cat">Tax Guide</span>
+      <h3><a href="learn/crypto-tax-pakistan-guide.html">Crypto Tax in Pakistan: The Complete 2026 Guide</a></h3>
+      <p>FBR rules, capital gains, record-keeping and the questions everyone asks — answered carefully and honestly.</p>
+      <div class="card-meta"><span>12 min read</span><span class="lang-tag">EN</span></div>
+    </div></article>
+    <article class="card" data-lang="UR"><div class="card-art">💱</div><div class="card-body">
+      <span class="card-cat">Beginner Guide</span>
+      <h3><a href="learn/binance-pkr-buy-guide-roman-urdu.html">Binance par PKR se Crypto Kaise Khareedein</a></h3>
+      <p>Account banane se lekar pehli USDT khareedne tak — mukammal step-by-step guide, aasaan Roman Urdu mein.</p>
+      <div class="card-meta"><span>10 min read</span><span class="lang-tag">UR</span></div>
+    </div></article>
+  </div>
+<div class="ad-slot" aria-hidden="true">Advertisement<small>Learn page leaderboard — placeholder. Replace with your ad network code at launch.</small></div>
+<section class="newsletter-band"><div class="wrap">
+  <h2>Pakistan ki crypto khabrein, seedhi aapke inbox mein</h2>
+  <p>Regulation updates, tax guides aur market analysis — hafte mein ek email, koi spam nahi. 100% free.</p>
+  <form class="newsletter-form" data-newsletter-form>
+    <input type="email" placeholder="Aapka email address" required aria-label="Email address">
+    <button class="btn" type="submit">Subscribe</button>
+  </form>
+  <p><a href="newsletter.html" style="color:#b9c6dc;font-size:0.85rem;">Zyada maloomat →</a></p>
+</div></section>
+
+</div>
+<script>
+document.querySelectorAll('[data-langfilter]').forEach(c => c.addEventListener('click', () => {
+  document.querySelectorAll('[data-langfilter]').forEach(x => x.classList.remove('active'));
+  c.classList.add('active');
+  const f = c.getAttribute('data-langfilter');
+  document.querySelectorAll('#learn-grid .card').forEach(card => {
+    card.style.display = (f === 'all' || card.getAttribute('data-lang') === f) ? '' : 'none';
+  });
+}));
+</script>
+
+<footer class="site-footer"><div class="wrap">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="logo" href="index.html"><span class="logo-mark">B</span>
+      <span class="logo-text"><b data-brand>BlockPak</b><small>PAKISTAN'S CRYPTO VOICE</small></span></a>
+      <p>Pakistan ka trusted crypto news aur guides platform — regulation, tax aur market analysis, English aur Roman Urdu mein.</p>
+    </div>
+    <div><h4>Sections</h4><ul>
+      <li><a href="news.html">News</a></li>
+      <li><a href="learn.html">Learn / Guides</a></li>
+      <li><a href="rankings.html">Exchange Rankings</a></li>
+      <li><a href="press-releases.html">Press Releases</a></li>
+    </ul></div>
+    <div><h4>Company</h4><ul>
+      <li><a href="about.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="submit-press-release.html">Submit Press Release</a></li>
+      <li><a href="newsletter.html">Newsletter</a></li>
+    </ul></div>
+    <div><h4>Legal</h4><ul>
+      <li><a href="disclaimer.html">Disclaimer</a></li>
+      <li><a href="privacy-policy.html">Privacy Policy</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© <span data-year>2026</span> <span data-brand>BlockPak</span>. All rights reserved.</span>
+    <span>Content is for education only — not financial advice.</span>
+  </div>
+</div></footer>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
