@@ -1,0 +1,288 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ArticleStatus {
+  DRAFT
+  PUBLISHED
+  SCHEDULED
+}
+
+enum SourceLabel {
+  OFFICIAL_SOURCE
+  NEWS_REPORT
+  ANALYSIS
+  OPINION
+  EDUCATIONAL
+}
+
+enum RegulationStatus {
+  PROPOSED
+  UNDER_DISCUSSION
+  ANNOUNCED
+  IMPLEMENTED
+  ACTIVE
+  SUPERSEDED
+  REPEALED
+}
+
+enum OrgType {
+  GOVERNMENT
+  REGULATOR
+  EXCHANGE
+  COMPANY
+  MEDIA
+}
+
+enum SourceType {
+  OFFICIAL
+  NEWS
+}
+
+enum CommentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id              String           @id @default(cuid())
+  name            String?
+  email           String           @unique
+  passwordHash    String?
+  role            Role             @default(USER)
+  emailVerified   DateTime?
+  alertPrefs      Json?
+  newsletterOptIn Boolean          @default(true)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  bookmarks       Bookmark[]
+  readingHistory  ReadingHistory[]
+  comments        Comment[]
+}
+
+model Author {
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  bio       String?
+  avatarUrl String?
+  createdAt DateTime  @default(now())
+  articles  Article[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  description String?
+  articles    Article[]
+}
+
+model Tag {
+  id          String       @id @default(cuid())
+  name        String
+  slug        String       @unique
+  articleTags ArticleTag[]
+}
+
+model Article {
+  id             String        @id @default(cuid())
+  slug           String        @unique
+  title          String
+  subtitle       String?
+  excerpt        String        @db.Text
+  content        String        @db.Text
+  imageUrl       String?
+  categoryId     String
+  category       Category      @relation(fields: [categoryId], references: [id])
+  authorId       String
+  author         Author        @relation(fields: [authorId], references: [id])
+  status         ArticleStatus @default(DRAFT)
+  isFeatured     Boolean       @default(false)
+  sourceLabel    SourceLabel   @default(NEWS_REPORT)
+  isDemo         Boolean       @default(false)
+  publishedAt    DateTime?
+  scheduledAt    DateTime?
+  readingMinutes Int           @default(5)
+  viewCount      Int           @default(0)
+  seoTitle       String?
+  seoDescription String?
+  ogImage        String?
+  canonicalUrl   String?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  articleTags    ArticleTag[]
+  sources        Source[]
+  comments       Comment[]
+  bookmarks      Bookmark[]
+
+  @@index([status, publishedAt])
+  @@index([categoryId])
+}
+
+model ArticleTag {
+  articleId String
+  tagId     String
+  article   Article @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  tag       Tag     @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([articleId, tagId])
+}
+
+model Regulation {
+  id          String            @id @default(cuid())
+  title       String
+  slug        String            @unique
+  description String            @db.Text
+  status      RegulationStatus
+  institution String?
+  impactArea  String?
+  isDemo      Boolean           @default(false)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  events      RegulatoryEvent[]
+  sources     Source[]
+}
+
+model RegulatoryEvent {
+  id           String           @id @default(cuid())
+  regulationId String
+  regulation   Regulation       @relation(fields: [regulationId], references: [id], onDelete: Cascade)
+  date         DateTime
+  title        String
+  description  String           @db.Text
+  status       RegulationStatus
+  sourceUrl    String?
+  isDemo       Boolean          @default(false)
+}
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  orgType     OrgType
+  description String?
+  websiteUrl  String?
+  sources     Source[]
+}
+
+model Source {
+  id             String        @id @default(cuid())
+  articleId      String?
+  article        Article?      @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  regulationId   String?
+  regulation     Regulation?   @relation(fields: [regulationId], references: [id], onDelete: Cascade)
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+  orgName        String
+  docTitle       String
+  publishedAt    DateTime?
+  url            String?
+  sourceType     SourceType    @default(OFFICIAL)
+}
+
+model MarketData {
+  id        String   @id @default(cuid())
+  symbol    String   @unique
+  name      String
+  priceUsd  Float
+  change24h Float
+  marketCap Float?
+  volume24h Float?
+  sparkline Json?
+  updatedAt DateTime @updatedAt
+}
+
+model NewsletterSubscriber {
+  id          String   @id @default(cuid())
+  email       String   @unique
+  name        String?
+  isActive    Boolean  @default(true)
+  preferences Json?
+  createdAt   DateTime @default(now())
+}
+
+model Comment {
+  id        String        @id @default(cuid())
+  articleId String
+  article   Article       @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String        @db.Text
+  parentId  String?
+  likes     Int           @default(0)
+  status    CommentStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+
+  @@index([articleId, status])
+}
+
+model Bookmark {
+  userId    String
+  articleId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, articleId])
+}
+
+model ReadingHistory {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  articleId String
+  viewedAt  DateTime @default(now())
+
+  @@index([userId])
+}
+
+model ArticleView {
+  id        String   @id @default(cuid())
+  articleId String
+  createdAt DateTime @default(now())
+
+  @@index([articleId])
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  url          String
+  alt          String?
+  uploadedById String?
+  createdAt    DateTime @default(now())
+}
+
+model SiteSetting {
+  key   String @id
+  value String @db.Text
+}
+
+model BreakingNews {
+  id        String    @id @default(cuid())
+  text      String
+  url       String?
+  priority  Int       @default(0)
+  isActive  Boolean   @default(true)
+  startsAt  DateTime?
+  endsAt    DateTime?
+  createdAt DateTime  @default(now())
+}
+
+model AdPlacement {
+  id       String  @id @default(cuid())
+  slot     String  @unique
+  isActive Boolean @default(false)
+  htmlCode String? @db.Text
+}
